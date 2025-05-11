@@ -1,112 +1,184 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [step, setStep] = useState<'credentials' | 'mfa'>('credentials');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  const [mfaCode, setMfaCode] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    // Check if user is already logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn === 'true') {
-      router.push('/dashboard');
-    }
-  }, [router]);
+  // Demo credentials
+  const DEMO_CREDENTIALS = {
+    email: 'demo@cybersentry.com',
+    password: 'Cyb3r$3ntry2024!',
+    mfaCode: '123456' // For demo purposes
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCredentialsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Store login state in localStorage
-    localStorage.setItem('isLoggedIn', 'true');
-    router.push('/dashboard');
+    setError('');
+
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+
+    // Check credentials
+    if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+      setStep('mfa');
+    } else {
+      setError('Invalid email or password');
+    }
+  };
+
+  const handleMfaSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!mfaCode) {
+      setError('Please enter the MFA code');
+      return;
+    }
+
+    // For demo purposes, accept the predefined MFA code
+    if (mfaCode === DEMO_CREDENTIALS.mfaCode) {
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('email', email);
+      router.push('/dashboard');
+    } else {
+      setError('Invalid MFA code');
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
-      <div className="max-w-md w-full space-y-8 p-10 bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-700">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+        {/* Header */}
         <div className="text-center">
-          <div className="flex justify-center">
-            <div className="w-24 h-24 bg-gradient-to-br from-teal-500 to-emerald-400 rounded-full flex items-center justify-center mb-4 shadow-lg transform hover:scale-105 transition-transform duration-300">
-              <span className="text-5xl">🛡️</span>
-            </div>
+          <div className="w-20 h-20 bg-teal-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <span className="text-4xl">🛡️</span>
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
             Welcome to CyberSentry
           </h2>
-          <p className="mt-2 text-sm text-teal-400">
-            Your trusted security companion
+          <p className="mt-2 text-gray-600 dark:text-gray-300">
+            Your cybersecurity learning platform
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-teal-400">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 appearance-none block w-full px-4 py-3 border border-gray-600 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition duration-150 ease-in-out bg-gray-700/50 text-white"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-teal-400">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 appearance-none block w-full px-4 py-3 border border-gray-600 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition duration-150 ease-in-out bg-gray-700/50 text-white"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-teal-500 focus:ring-teal-500 border-gray-600 rounded bg-gray-700"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
-                Remember me
-              </label>
+        {/* Login Form */}
+        {step === 'credentials' ? (
+          <form className="mt-8 space-y-6" onSubmit={handleCredentialsSubmit}>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 block w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-1 block w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                  placeholder="Enter your password"
+                />
+              </div>
             </div>
 
-            <div className="text-sm">
-              <a href="#" className="font-medium text-teal-400 hover:text-teal-300 transition-colors duration-150">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
+            {error && (
+              <div className="text-red-500 text-sm text-center">
+                {error}
+              </div>
+            )}
 
-          <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-150 ease-in-out transform hover:scale-[1.02] shadow-lg"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
             >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <svg className="h-5 w-5 text-teal-300 group-hover:text-teal-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                </svg>
-              </span>
-              Sign in
+              Continue to MFA
             </button>
-          </div>
-        </form>
+          </form>
+        ) : (
+          <form className="mt-8 space-y-6" onSubmit={handleMfaSubmit}>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="mfaCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  MFA Code
+                </label>
+                <input
+                  id="mfaCode"
+                  name="mfaCode"
+                  type="text"
+                  required
+                  value={mfaCode}
+                  onChange={(e) => setMfaCode(e.target.value)}
+                  className="mt-1 block w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                  placeholder="Enter 6-digit code"
+                  maxLength={6}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="text-red-500 text-sm text-center">
+                {error}
+              </div>
+            )}
+
+            <div className="flex space-x-4">
+              <button
+                type="button"
+                onClick={() => setStep('credentials')}
+                className="flex-1 py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className="flex-1 py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Demo Note */}
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Demo Credentials:
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Email: {DEMO_CREDENTIALS.email}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Password: {DEMO_CREDENTIALS.password}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            MFA Code: {DEMO_CREDENTIALS.mfaCode}
+          </p>
+        </div>
       </div>
     </div>
   );

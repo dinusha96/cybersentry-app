@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthenticationTips from '../components/AuthenticationTips';
 import CyberMemoryGame from '../components/CyberMemoryGame';
@@ -26,17 +26,23 @@ function ThemeToggleButton() {
 
 export default function DashboardPage() {
   const router = useRouter();
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     // Check if user is logged in
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const storedUsername = localStorage.getItem('username');
+    
     if (isLoggedIn !== 'true') {
       router.push('/login');
+    } else if (storedUsername) {
+      setUsername(storedUsername);
     }
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
     router.push('/login');
   };
 
@@ -50,9 +56,16 @@ export default function DashboardPage() {
               <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">🛡️</span>
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
-                CyberSentry Dashboard
-              </h1>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                  CyberSentry Dashboard
+                </h1>
+                {username && (
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Welcome, {username}
+                  </p>
+                )}
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggleButton />
