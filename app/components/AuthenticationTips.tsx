@@ -1,8 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 export default function AuthenticationTips() {
+  const router = useRouter();
   return (
-    <div className="h-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col">
+    <button
+      onClick={() => router.push('/mfa-guide')}
+      className="h-full w-full text-left p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+      tabIndex={0}
+      aria-label="Multi-Factor Authentication (MFA) Guide"
+    >
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
         Multi-Factor Authentication (MFA)
       </h2>
@@ -27,9 +35,9 @@ export default function AuthenticationTips() {
       </div>
       <div className="mt-4 p-4 bg-teal-50 dark:bg-teal-900/20 rounded-lg">
         <p className="text-sm text-teal-800 dark:text-teal-200">
-          MFA adds an extra layer of security beyond just passwords.
+          MFA adds an extra layer of security beyond just passwords. Click to learn more!
         </p>
       </div>
-    </div>
+    </button>
   );
 } 
