@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ CyberSentry – Interactive Cybersecurity Learning Platform
 
-## Getting Started
+CyberSentry is a modern web-based dashboard designed to enhance cybersecurity awareness through engaging, interactive learning modules. Built for educational impact and intuitive use, it helps users understand best practices in digital security through real-world simulations and gamified tools.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features & Modules
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. 🔐 Multi-Factor Authentication (MFA) Guide
+- Highlights best practices for securing online accounts
+- Includes visual 2FA toggle simulation and platform-specific tips
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. 📋 Cyber Habits Board
+- Interactive checklist of good vs risky cybersecurity behaviors
+- Helps reinforce safe digital habits in a visual format
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. 🎮 Cyber Memory Game
+- Flip-and-match game featuring cybersecurity threats and defenses
+- Fun, visual way to reinforce key concepts
 
-## Learn More
+### 4. 🛡️ Threat Radar
+- Simulated animated radar showing blocked phishing, tracking, or malware threats
+- Educational tool to visualize cyber risk activity
 
-To learn more about Next.js, take a look at the following resources:
+### 5. 🎯 Phishing Awareness Quiz
+- Interactive quiz with real-world phishing examples
+- Real-time feedback and guidance for recognizing suspicious content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 6. 📊 Security Standards Guide
+- Overview of major cybersecurity frameworks and compliance practices
+- Helps users understand international standards and organizational responsibilities
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧰 Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI:** Responsive + dark/light mode
+- **State Management:** LocalStorage (for auth and preferences)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛠️ Getting Started
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/dinusha96/cybersentry-app
+   cd cybersentry-app
+
