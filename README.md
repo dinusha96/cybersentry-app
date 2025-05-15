@@ -1,37 +1,74 @@
-# CyberSentry App
+🛡️ CyberSentry App
+CyberSentry is a modern, interactive cybersecurity learning platform designed to raise awareness and teach essential security practices through hands-on experience. Built with a focus on secure development, it features user authentication, MFA, and MongoDB-backed data management.
 
-A cybersecurity learning platform with user authentication and database management.
+🚀 Features
+✅ User Registration & Login
+Secure account creation and access with encrypted credentials.
 
-## Features
+✅ Multi-Factor Authentication (MFA)
+Adds an extra layer of protection using time-based OTPs (e.g., Google Authenticator or FreeOTP).
 
-- User Registration and Login
-- Multi-Factor Authentication (MFA)
-- Database Management Interface
-- Secure Password Storage
-- MongoDB Integration
+✅ MongoDB Integration
+Real-time data storage and retrieval using a robust NoSQL database.
 
-## Installation
+✅ Secure Password Storage
+Passwords are hashed using industry best practices.
 
-1. Clone the repository:
-```bash
+✅ Database Management Interface
+Basic data admin tools for inspecting and managing stored data.
+
+📦 Installation Guide
+1. 📥 Clone the Repository
+bash
+Copy
+Edit
 git clone https://github.com/dinusha96/cybersentry-app.git
 cd cybersentry-app
-```
-
-2. Install dependencies:
-```bash
+2. 📚 Install Dependencies
+bash
+Copy
+Edit
 npm install
-```
+3. 🍃 Start MongoDB (macOS)
+Make sure MongoDB is installed via Homebrew. Then run:
 
-3. Start MongoDB:
-```bash
-# On macOS
+bash
+Copy
+Edit
 brew services start mongodb-community
-```
+If not installed, run:
 
-4. Start the development server:
-```bash
+bash
+Copy
+Edit
+brew tap mongodb/brew
+brew install mongodb-community
+4. 💻 Start the Development Server
+bash
+Copy
+Edit
 npm run dev
-```
+🔗 Visit: http://localhost:3000
 
-The application will be available at `http://localhost:3000`
+🧠 Technologies Used
+Next.js / React – Frontend & SSR
+
+Node.js – Server runtime
+
+MongoDB – NoSQL database
+
+Mongoose – MongoDB ODM
+
+bcrypt – Password hashing
+
+NextAuth.js – Authentication & MFA
+
+🛠️ Future Improvements
+Admin dashboard with user analytics
+
+Interactive cybersecurity games
+
+Role-based access control (RBAC)
+
+Email-based verification/reset
+
