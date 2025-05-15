@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -10,28 +11,40 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [mfaCode, setMfaCode] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Demo credentials
-  const DEMO_CREDENTIALS = {
-    email: 'demo@cybersentry.com',
-    password: 'Cyb3r$3ntry2024!',
-    mfaCode: '123456' // For demo purposes
-  };
-
-  const handleCredentialsSubmit = (e: React.FormEvent) => {
+  const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     if (!email || !password) {
       setError('Please enter both email and password');
+      setLoading(false);
       return;
     }
 
-    // Check credentials
-    if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      // If login successful, proceed to MFA
       setStep('mfa');
-    } else {
-      setError('Invalid email or password');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,8 +57,8 @@ export default function LoginPage() {
       return;
     }
 
-    // For demo purposes, accept the predefined MFA code
-    if (mfaCode === DEMO_CREDENTIALS.mfaCode) {
+    // For demo purposes, accept any 6-digit code
+    if (mfaCode.length === 6) {
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('email', email);
       router.push('/dashboard');
@@ -114,10 +127,20 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+              disabled={loading}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Continue to MFA
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
+
+            <div className="text-sm text-center">
+              <Link
+                href="/register"
+                className="font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400"
+              >
+                Don't have an account? Sign up
+              </Link>
+            </div>
           </form>
         ) : (
           <form className="mt-8 space-y-6" onSubmit={handleMfaSubmit}>
@@ -158,27 +181,11 @@ export default function LoginPage() {
                 type="submit"
                 className="flex-1 py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
               >
-                Sign In
+                Verify
               </button>
             </div>
           </form>
         )}
-
-        {/* Demo Note */}
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Demo Credentials:
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Email: {DEMO_CREDENTIALS.email}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Password: {DEMO_CREDENTIALS.password}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            MFA Code: {DEMO_CREDENTIALS.mfaCode}
-          </p>
-        </div>
       </div>
     </div>
   );

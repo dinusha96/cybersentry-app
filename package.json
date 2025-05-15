@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@firebase/auth": "^1.10.2",
+    "bcryptjs": "^3.0.2",
     "firebase": "^11.7.1",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.3",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
