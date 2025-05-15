@@ -1,4 +1,6 @@
 🛡️ CyberSentry App
+
+
 CyberSentry is a modern, interactive cybersecurity learning platform designed to raise awareness and teach essential security practices through hands-on experience. Built with a focus on secure development, it features user authentication, multi-factor authentication (MFA), and MongoDB-backed data management.
 
 🚀 Features
