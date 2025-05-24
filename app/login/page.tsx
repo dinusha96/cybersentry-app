@@ -39,8 +39,10 @@ export default function LoginPage() {
         throw new Error(data.error || 'Login failed');
       }
 
-      // If login successful, proceed to MFA
-      setStep('mfa');
+      // If login successful, log in and redirect (skip MFA)
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('email', email);
+      router.push('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

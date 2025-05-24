@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AuthenticationTips from '../components/AuthenticationTips';
 import CyberMemoryGame from '../components/CyberMemoryGame';
 import ThreatRadar from '../components/ThreatRadar';
@@ -109,7 +110,9 @@ export default function DashboardPage() {
 
             <div className="h-[400px] transform hover:scale-105 transition-transform duration-200">
               <div className="h-full">
-                <ThreatRadar />
+                <Link href="/threat-radar" className="block">
+              <ThreatRadar />
+            </Link>
               </div>
             </div>
 
