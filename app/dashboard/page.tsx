@@ -1,5 +1,18 @@
 "use client";
 
+ threat-radar
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import AuthenticationTips from '../components/AuthenticationTips';
+import CyberMemoryGame from '../components/CyberMemoryGame';
+import ThreatRadar from '../components/ThreatRadar';
+import PhishingAwarenessQuiz from '../components/PhishingAwarenessQuiz';
+import CyberDosAndDonts from '../components/CyberDosAndDonts';
+import ComplianceCheck from '../components/ComplianceCheck';
+import { ThemeProvider } from '../context/ThemeContext';
+import { useTheme } from '../context/ThemeContext';
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthenticationTips from "../components/AuthenticationTips";
@@ -10,6 +23,7 @@ import CyberDosAndDonts from "../components/CyberDosAndDonts";
 import ComplianceCheck from "../components/ComplianceCheck";
 import { ThemeProvider } from "../context/ThemeContext";
 import { useTheme } from "../context/ThemeContext";
+main
 
 function ThemeToggleButton() {
 	const { theme, toggleTheme } = useTheme();
@@ -106,11 +120,21 @@ export default function DashboardPage() {
 							</div>
 						</div>
 
+ threat-radar
+            <div className="h-[400px] transform hover:scale-105 transition-transform duration-200">
+              <div className="h-full">
+                <Link href="/threat-radar" className="block">
+              <ThreatRadar />
+            </Link>
+              </div>
+            </div>
+
 						<div className="h-[400px] transform hover:scale-105 transition-transform duration-200">
 							<div className="h-full">
 								<CyberMemoryGame />
 							</div>
 						</div>
+ main
 
 						<div className="h-[400px] transform hover:scale-105 transition-transform duration-200">
 							<div className="h-full">

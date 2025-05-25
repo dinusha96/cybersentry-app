@@ -10,13 +10,16 @@
   },
   "dependencies": {
     "@firebase/auth": "^1.10.2",
+    "@types/leaflet": "^1.9.18",
     "bcryptjs": "^3.0.2",
     "firebase": "^11.7.1",
+    "leaflet": "^1.9.4",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.3",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
